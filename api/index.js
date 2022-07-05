@@ -1,14 +1,16 @@
-const express = require("express")
+import express, { json } from "express"
+import { router } from "./routes/usersRoute.js"
+import { config } from "../config/config.js"
+import morgan from "morgan"
+import cors from "cors"
+
 const app = express()
-const config = require("../config/config")
-const cors = require("cors")
 
+app.use(morgan("tiny"))
 app.use(cors({ origin: "*" }))
-app.use(express.json({ extended: false }))
+app.use(json({ extended: false }))
 
-const userRoute = require("./routes/userExampleRoute")
-
-app.use("/user", userRoute)
+app.use("/user", router)
 
 app.get("/", (req, res, next) => {
   res.status(200).send({
@@ -17,4 +19,6 @@ app.get("/", (req, res, next) => {
 })
 
 const PORT = config.port || 3000
-app.listen(PORT)
+app.listen(PORT, () => {
+  console.log("Server Listening in " + PORT)
+})

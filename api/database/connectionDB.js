@@ -1,6 +1,6 @@
-const config = require("../../config/config")
-const mysql = require("mysql2")
-module.exports = class Database {
+import { config } from "../../config/config.js"
+import mysql from "mysql2"
+class Database {
   constructor() {
     ;(this._host = config.database.dbHost),
       (this._username = config.database.dbUsername),
@@ -13,7 +13,6 @@ module.exports = class Database {
     return this._host
   }
   set host(host) {
-    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++okok")
     this._host = host
   }
 
@@ -65,3 +64,5 @@ module.exports = class Database {
     }
   }
 }
+
+export { Database }
