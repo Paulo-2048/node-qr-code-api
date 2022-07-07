@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken"
 import { config } from "../config/config.js"
-// const userDatabase = require("../api/database/userExampleDb")
-// const Database = require("../api/database/connectionDB")
+
 
 let jwtGenerate = (req, res, next) => {
   // # No expires
