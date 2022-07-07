@@ -1,6 +1,3 @@
-import * as QRCode from "qrcode"
-import { config } from "../../config/config.js"
-
 class QrCodeModel {
   constructor(title, description, link, reference, userCode) {
     ;(this.title = title),
@@ -61,4 +58,5 @@ class QrCodeModel {
   }
 }
 
-export { QrCodeModel }
+module.exports = {QrCodeModel}
+// export { QrCodeModel }

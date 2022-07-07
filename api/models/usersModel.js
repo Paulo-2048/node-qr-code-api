@@ -53,4 +53,5 @@ class UserModel {
   }
 }
 
-export { UserModel }
+module.exports = {UserModel}
+// export { UserModel }

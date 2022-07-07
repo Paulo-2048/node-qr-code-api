@@ -88,4 +88,5 @@ class UserDatabase {
   }
 }
 
-export { UserDatabase }
+module.exports = {UserDatabase}
+//export { UserDatabase }
