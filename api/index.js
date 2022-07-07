@@ -18,13 +18,9 @@ app.use("/qrcode", qrCodeRoute.router)
 
 app.use("/", redirectRoute.router)
 
-app.get("/", (req, res, next) => {
-  res.status(200).send({
-    status: "working",
-  })
-})
 
-const PORT = config.port || 3000
+
+const PORT = config.port || 3333
 app.listen(PORT, () => {
   console.log("Server Listening in " + PORT)
 })
