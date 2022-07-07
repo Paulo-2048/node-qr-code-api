@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken")
-const config = require("../config/config")
+import jwt from "jsonwebtoken"
+import { config } from "../config/config.js"
 // const userDatabase = require("../api/database/userExampleDb")
 // const Database = require("../api/database/connectionDB")
 
-exports.jwtGenerate = (req, res, next) => {
+let jwtGenerate = (req, res, next) => {
   // # No expires
   try {
     let result = jwt.sign(
@@ -18,6 +18,7 @@ exports.jwtGenerate = (req, res, next) => {
       token: result,
     })
   } catch (err) {
+    console.error(err)
     res.status(500).send({
       msg: config.constants.http.fail,
       err: config.constants.http.jwtFail,
@@ -25,7 +26,7 @@ exports.jwtGenerate = (req, res, next) => {
   }
 }
 
-exports.jwtVerify = (req, res, next) => {
+let jwtVerify = (req, res, next) => {
   try {
     let token = req.headers.authorization.split(" ")[1]
     let result = jwt.verify(token, config.jwtSecret)
@@ -39,7 +40,7 @@ exports.jwtVerify = (req, res, next) => {
   }
 }
 
-// exports.jwtDecode = (token) => {
+// jwtDecode = (token) => {
 //   try {
 //     let result = jwt.decode(token, config.jwtSecret)
 //     return result
@@ -48,7 +49,7 @@ exports.jwtVerify = (req, res, next) => {
 //   }
 // }
 
-// exports.jwtRefresh = async (token) => { # Function to refrensh token
+// jwtRefresh = async (token) => { # Function to refrensh token
 //   const db = new Database()
 //   const userDb = new userDatabase(db.con)
 //   try {
@@ -81,3 +82,5 @@ exports.jwtVerify = (req, res, next) => {
 //     return err
 //   }
 // }
+
+export { jwtGenerate, jwtVerify }
