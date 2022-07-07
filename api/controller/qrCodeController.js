@@ -55,7 +55,7 @@ const setQrCode = async (req, res, next) => {
       req.body.title,
       req.body.description,
       req.body.link,
-      req.body.reference,
+      undefined,
       userCode
     )
     let result = await qrcodeDb.setQrCode(qrCodeModel)

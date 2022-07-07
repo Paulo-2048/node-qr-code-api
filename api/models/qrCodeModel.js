@@ -38,7 +38,7 @@ class QrCodeModel {
   }
   set reference(reference) {
     if (reference == undefined) {
-      let randomCode = Math.random().toString(16).substring(2)
+      let randomCode = (Math.random() + 1).toString(36).substring(7)
       this._reference = randomCode
     } else {
       this._reference = reference
