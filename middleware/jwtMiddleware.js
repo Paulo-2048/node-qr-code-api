@@ -1,7 +1,6 @@
 const jwt =  require("jsonwebtoken");
 const config =  require("../config/config.js");
 
-
 let jwtGenerate = (req, res, next) => {
   // # No expires
   try {
