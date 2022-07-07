@@ -20,6 +20,16 @@ class UserDatabase {
     }
   }
 
+  async getUserCode(id) {
+    try {
+      let sql = "SELECT code FROM users WHERE idusers = " + id
+      const [result, fields] = await this.con.promise().query(sql)
+      return result[0].code
+    } catch (error) {
+      return error
+    }
+  }
+
   async getUserById(id) {
     try {
       let sql = "SELECT * FROM users WHERE idusers = " + id

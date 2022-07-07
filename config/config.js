@@ -4,8 +4,9 @@ dotenv.config({ path: ".env" })
 const config = {
   jwtSecret: process.env.JWT_SECRET,
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
-
   port: process.env.PORT,
+
+  baseLink: process.env.LINK + ":" + process.env.PORT,
 
   database: {
     dbHost: process.env.HOSTDB,
@@ -26,5 +27,4 @@ const config = {
     },
   },
 }
-
 export { config }

@@ -5,6 +5,7 @@ class UserModel {
       (this.password = password),
       (this.acess = acess),
       (this.code = code)
+      
   }
 
   get name() {
