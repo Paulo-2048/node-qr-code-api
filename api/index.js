@@ -16,7 +16,7 @@ app.use(json({ extended: false }))
 app.use("/user", userRoute.router)
 app.use("/qrcode", qrCodeRoute.router)
 
-app.use("/", redirectRoute.router)
+//app.use("/", redirectRoute.router)
 
 app.get("/", (req, res, next) => {
   res.status(200).send({
