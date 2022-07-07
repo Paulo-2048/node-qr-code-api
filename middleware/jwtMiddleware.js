@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken"
-import { config } from "../config/config.js"
+const jwt =  require("jsonwebtoken");
+const config =  require("../config/config.js");
 
 
 let jwtGenerate = (req, res, next) => {
@@ -82,4 +82,5 @@ let jwtVerify = (req, res, next) => {
 //   }
 // }
 
-export { jwtGenerate, jwtVerify }
+module.exports = { jwtGenerate, jwtVerify }
+// export { jwtGenerate, jwtVerify }

@@ -1,6 +1,10 @@
-import express from "express"
-import * as jwt from "../../middleware/jwtMiddleware.js"
-import * as userController from "../controller/usersController.js"
+// import express from "express"
+// import * as jwt from "../../middleware/jwtMiddleware.js"
+// import * as userController from "../controller/usersController.js"
+
+const express = require("express")
+const jwt = require("../../middleware/jwtMiddleware.js")
+const userController = require("../controller/usersController.js")
 
 const router = express.Router()
 
@@ -11,4 +15,5 @@ router.post("/login", userController.loginUser, jwt.jwtGenerate)
 router.post("/update", jwt.jwtVerify, userController.updateUser)
 router.post("/delete", jwt.jwtVerify, userController.deleteUser)
 
-export { router }
+module.exports = router
+// export { router }

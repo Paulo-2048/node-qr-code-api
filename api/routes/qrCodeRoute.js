@@ -1,6 +1,11 @@
-import express from "express"
-import * as jwt from "../../middleware/jwtMiddleware.js"
-import * as qrCodeController from "../controller/qrCodeController.js"
+// import express from "express"
+// import * as jwt from "../../middleware/jwtMiddleware.js"
+// import * as qrCodeController from "../controller/qrCodeController.js"
+
+const express =  require("express");
+const jwt =  require("../../middleware/jwtMiddleware.js");
+const qrCodeController =  require("../controller/qrCodeController.js");
+
 
 const router = express.Router()
 
@@ -10,4 +15,6 @@ router.post("/", jwt.jwtVerify, qrCodeController.setQrCode)
 router.post("/update", jwt.jwtVerify, qrCodeController.updateQrCode)
 router.post("/delete", jwt.jwtVerify, qrCodeController.deleteQrCode)
 
-export { router }
+
+module.exports = router
+// export { router }
