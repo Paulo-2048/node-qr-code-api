@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken"
 import { config } from "../config/config.js"
 
-
 let jwtGenerate = (req, res, next) => {
   // # No expires
   try {
