@@ -6,15 +6,12 @@ let jwtGenerate = (req, res, next) => {
   try {
     let result = jwt.sign(
       {
-        id: res.locals.id,
+        plan: req.headers.plan,
       },
       config.jwtSecret
     )
-
-    res.status(200).send({
-      msg: config.constants.http.sucess,
-      token: result,
-    })
+    res.locals.token = result
+    next()
   } catch (err) {
     console.error(err)
     res.status(500).send({
@@ -26,9 +23,9 @@ let jwtGenerate = (req, res, next) => {
 
 let jwtVerify = (req, res, next) => {
   try {
-    let token = req.headers.authorization.split(" ")[1]
+    let token = req.headers.code
     let result = jwt.verify(token, config.jwtSecret)
-    res.locals.id = result.id
+    res.locals.plan = result.plan
     next()
   } catch (err) {
     res.status(500).send({

@@ -1,9 +1,9 @@
 class QrCodeModel {
-  constructor(title, description, link, reference, userCode) {
+  constructor(title, description, link, userCode) {
     ;(this.title = title),
       (this.description = description),
       (this.link = link),
-      (this.reference = reference),
+      (this.reference = undefined),
       (this.userCode = userCode)
   }
 
