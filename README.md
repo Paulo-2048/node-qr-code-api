@@ -1,10 +1,10 @@
 <!-- ![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png) -->
 
-# Node.JS API Template
+# Node.JS Qq Code API
 
-A generic template, for quickly building Node.JS based API's, and fast deploy in Vercel host
+An api that allows the creation of dynamic qr codes, that is, the referenced links can be modified, without changing the image of the qr code itself
 
-## Features Include
+<!-- ## Features Include
 
 - Folder/Files Structure
 - MySQL Database Integration
@@ -164,6 +164,6 @@ Answer 1
 
 Answer 2 -->
 
-## Feedback
+<!-- ## Feedback
 
-If you have any feedback or suggestion, please reach out to me at paulo19032004@gmail.com
+If you have any feedback or suggestion, please reach out to me at paulo19032004@gmail.com -->
