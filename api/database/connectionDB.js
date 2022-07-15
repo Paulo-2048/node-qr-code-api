@@ -1,8 +1,5 @@
-// import { config } from "../../config/config.js"
-// import mysql from "mysql2"
-
-const config = require("../../config/config.js")
-const mysql = require("mysql2")
+import { config } from "../../config/config.js"
+import mysql from "mysql2"
 
 class Database {
   constructor() {
@@ -69,5 +66,4 @@ class Database {
   }
 }
 
-module.exports = { Database }
-// export { Database }
+export { Database }
