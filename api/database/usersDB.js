@@ -10,83 +10,58 @@ class UserDatabase {
     this._con = con
   }
 
-  async getUser() {
+
+  async generateCode(user) {
+    let { plan, code } = user
     try {
-      let sql = "SELECT * FROM users"
-      const [result, fields] = await this.con.promise().query(sql)
-      return result
+      let sql = "INSERT INTO users (plan, code) VALUES (?, SHA(?))"
+      await this.con.promise().query(sql, [plan, code])
+      return code
     } catch (error) {
+      console.error(error)
       return error
     }
   }
 
-  async getUserCode(id) {
-    try {
-      let sql = "SELECT code FROM users WHERE idusers = " + id
-      const [result, fields] = await this.con.promise().query(sql)
-      return result[0].code
-    } catch (error) {
-      return error
-    }
-  }
 
-  async getUserById(id) {
+  async incrementCount(token) {
     try {
-      let sql = "SELECT * FROM users WHERE idusers = " + id
-      const [result, fields] = await this.con.promise().query(sql)
-      return result
-    } catch (error) {
-      return error
-    }
-  }
-
-  async login(email, pass) {
-    try {
-      let sql = "SELECT * FROM users WHERE email = ? AND password = SHA(?)"
-      const [result, fields] = await this.con
-        .promise()
-        .query(sql, [email, pass])
-      return result
-    } catch (error) {
-      return error
-    }
-  }
-
-  async setUser(user) {
-    let { name, email, password, acess, code } = user
-
-    try {
+      let sqlReturn =
+        'SELECT qrcodes_created from users WHERE code = SHA("' + token + '")'
+      const resultQt = await this.con.promise().query(sqlReturn)
       let sql =
-        "INSERT INTO users (name, email, password, acess, code) VALUES (?, ?, SHA(?), ?, ?)"
+        'UPDATE users SET qrcodes_created = ? WHERE code = SHA("' + token + '")'
       const result = await this.con
         .promise()
-        .query(sql, [name, email, password, acess, code])
+        .query(sql, [
+          resultQt[0][0].qrcodes_created + 1,
+          `SHA("${token}")`,
+        ])
       return result[0]
     } catch (error) {
       return error
     }
   }
 
-  async updateUser(id, column, value) {
+  async desincrementCount(token) {
     try {
-      let sql = "UPDATE users SET " + column + " = ? WHERE idusers = " + id
-      const result = await this.con.promise().query(sql, [value])
+      let sqlReturn =
+        'SELECT qrcodes_created from users WHERE code = SHA("' + token + '")'
+      const resultQt = await this.con.promise().query(sqlReturn)
+      let sql =
+        'UPDATE users SET qrcodes_created = ? WHERE code = SHA("' + token + '")'
+      const result = await this.con
+        .promise()
+        .query(sql, [
+          resultQt[0][0].qrcodes_created - 1,
+          `SHA("${token}")`,
+        ])
       return result[0]
-    } catch (error) {
-      return error
-    }
-  }
-
-  async deleteUser(id) {
-    try {
-      let sql = "DELETE FROM users WHERE idusers = " + id
-      const result = await this.con.promise().query(sql)
-      return result
     } catch (error) {
       return error
     }
   }
 }
 
-module.exports = {UserDatabase}
+module.exports = { UserDatabase }
 //export { UserDatabase }
