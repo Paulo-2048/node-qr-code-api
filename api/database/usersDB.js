@@ -10,9 +10,7 @@ class UserDatabase {
     this._con = con
   }
 
-
-  async generateCode(user) {
-    let { plan, code } = user
+  async storeCode(code, plan) {
     try {
       let sql = "INSERT INTO users (plan, code) VALUES (?, SHA(?))"
       await this.con.promise().query(sql, [plan, code])
@@ -23,45 +21,32 @@ class UserDatabase {
     }
   }
 
-
   async incrementCount(token) {
     try {
-      let sqlReturn =
-        'SELECT qrcodes_created from users WHERE code = SHA("' + token + '")'
-      const resultQt = await this.con.promise().query(sqlReturn)
-      let sql =
-        'UPDATE users SET qrcodes_created = ? WHERE code = SHA("' + token + '")'
-      const result = await this.con
+      let sqlReturn = "SELECT qrcodes_created from users WHERE code = SHA(?)"
+      const resultQt = await this.con.promise().query(sqlReturn, [token])
+      let sql = "UPDATE users SET qrcodes_created = ? WHERE code = SHA(?)"
+      await this.con
         .promise()
-        .query(sql, [
-          resultQt[0][0].qrcodes_created + 1,
-          `SHA("${token}")`,
-        ])
-      return result[0]
+        .query(sql, [resultQt[0][0].qrcodes_created + 1, token])
     } catch (error) {
+      console.error(error)
       return error
     }
   }
 
   async desincrementCount(token) {
     try {
-      let sqlReturn =
-        'SELECT qrcodes_created from users WHERE code = SHA("' + token + '")'
-      const resultQt = await this.con.promise().query(sqlReturn)
-      let sql =
-        'UPDATE users SET qrcodes_created = ? WHERE code = SHA("' + token + '")'
-      const result = await this.con
+      let sqlReturn = "SELECT qrcodes_created from users WHERE code = SHA(?)"
+      const resultQt = await this.con.promise().query(sqlReturn, [token])
+      let sql = "UPDATE users SET qrcodes_created = ? WHERE code = SHA(?)"
+      await this.con
         .promise()
-        .query(sql, [
-          resultQt[0][0].qrcodes_created - 1,
-          `SHA("${token}")`,
-        ])
-      return result[0]
+        .query(sql, [resultQt[0][0].qrcodes_created - 1, token])
     } catch (error) {
       return error
     }
   }
 }
 
-module.exports = { UserDatabase }
-//export { UserDatabase }
+export { UserDatabase }

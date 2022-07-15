@@ -1,8 +1,5 @@
-// import { config } from "../config/config.js"
-// import * as QRCode from "qrcode"
-
-const config = require("../config/config.js")
-const QRCode = require("qrcode")
+import { config } from "../config/config.js"
+import * as QRCode from "qrcode"
 
 let qrcodeGenerate = (ref) => {
   let finalLink = config.baseLink + "/" + ref
@@ -10,5 +7,4 @@ let qrcodeGenerate = (ref) => {
   return result
 }
 
-module.exports = { qrcodeGenerate }
-// export { qrcodeGenerate }
+export { qrcodeGenerate }

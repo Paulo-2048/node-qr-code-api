@@ -1,26 +1,19 @@
-// import { config } from "../../config/config.js"
-// import { Database } from "../database/connectionDB.js"
-// import { QrCodeDatabase } from "../database/qrCodeDB.js"
-// import { QrCodeModel } from "../models/qrCodeModel.js"
-// import { qrcodeGenerate } from "../../utils/qrCodeGenerate.js"
-// import { UserDatabase } from "../database/usersDB.js"
-
-const config = require("../../config/config.js")
-const { Database } = require("../database/connectionDB.js")
-const { QrCodeDatabase } = require("../database/qrCodeDB.js")
-const { QrCodeModel } = require("../models/qrCodeModel.js")
-const { qrcodeGenerate } = require("../../utils/qrCodeGenerate.js")
-const { UserDatabase } = require("../database/usersDB.js")
+import { config } from "../../config/config.js"
+import { Database } from "../database/connectionDB.js"
+import { QrCodeDatabase } from "../database/qrCodeDB.js"
+import { QrCodeModel } from "../models/qrCodeModel.js"
+import { qrcodeGenerate } from "../../utils/qrCodeGenerate.js"
+import { UserDatabase } from "../database/usersDB.js"
 
 const db = new Database()
 const qrcodeDb = new QrCodeDatabase(db.con)
 const userDb = new UserDatabase(db.con)
 
-const getQrCode = async (req, res, next) => {
+const getQrCode = async (req, res) => {
   try {
     let userCode = req.headers.code
     let result = await qrcodeDb.getQrCode(userCode)
-    if (Object.keys(result).length <= 0) throw "No Data"
+    if (Object.keys(result).length <= 0) throw "No QrCode was Found For This Api-Key"
     for (const i of result) {
       i.userCode = undefined
       i.qrcode = await qrcodeGenerate(i.reference)
@@ -35,12 +28,12 @@ const getQrCode = async (req, res, next) => {
   }
 }
 
-const getQrCodeById = async (req, res, next) => {
+const getQrCodeById = async (req, res) => {
   try {
     let idQrCode = req.params.id
     let userCode = req.headers.code
     let result = await qrcodeDb.getQrCodeById(idQrCode, userCode)
-    if (Object.keys(result).length <= 0) throw "No Data"
+    if (Object.keys(result).length <= 0) throw "No QrCode was Found For This Id and Api-Key"
     for (const i of result) {
       i.userCode = undefined
       i.qrcode = await qrcodeGenerate(i.reference)
@@ -55,7 +48,7 @@ const getQrCodeById = async (req, res, next) => {
   }
 }
 
-const setQrCode = async (req, res, next) => {
+const setQrCode = async (req, res) => {
   try {
     let userCode = req.headers.code
     let qrCodeModel = new QrCodeModel(
@@ -65,8 +58,8 @@ const setQrCode = async (req, res, next) => {
       userCode
     )
     let result = await qrcodeDb.setQrCode(qrCodeModel)
-    if (result.affectedRows <= 0 || result.affectedRows == undefined)
-      throw "Error em Create"
+    if (result.affectedRows <= 0)
+      throw "Error in Set New QrCode"
     await userDb.incrementCount(userCode)
     res.status(200).send({
       msg: config.constants.http.sucess,
@@ -78,15 +71,15 @@ const setQrCode = async (req, res, next) => {
   }
 }
 
-const updateQrCode = async (req, res, next) => {
+const updateQrCode = async (req, res) => {
   try {
     let userCode = req.headers.code
     let id = req.params.id
     let column = req.body.column
     let value = req.body.value
     let result = await qrcodeDb.updateQrCode(id, column, value, userCode)
-    if (result.affectedRows <= 0 || result.affectedRows == undefined)
-      throw "Error em update"
+    if (result.affectedRows <= 0)
+      throw "Error in Update"
     res.status(200).send({
       msg: config.constants.http.sucess,
     })
@@ -96,13 +89,13 @@ const updateQrCode = async (req, res, next) => {
   }
 }
 
-const deleteQrCode = async (req, res, next) => {
+const deleteQrCode = async (req, res) => {
   try {
     let userCode = req.headers.code
     let id = req.params.id
     let result = await qrcodeDb.deleteQrCode(id, userCode)
-    if (result.affectedRows <= 0 || result[0].affectedRows <= 0)
-      throw "Error em delete"
+    if (result.affectedRows <= 0 || result.affectedRows == undefined)
+      throw "Error in Delete"
     await userDb.desincrementCount(userCode)
     res.status(200).send({
       msg: config.constants.http.sucess,
@@ -112,11 +105,4 @@ const deleteQrCode = async (req, res, next) => {
   }
 }
 
-module.exports = {
-  getQrCode,
-  getQrCodeById,
-  setQrCode,
-  updateQrCode,
-  deleteQrCode,
-}
-// export { getQrCode, getQrCodeById, setQrCode, updateQrCode, deleteQrCode }
+export { getQrCode, getQrCodeById, setQrCode, updateQrCode, deleteQrCode }
