@@ -16,17 +16,19 @@ class QrCodeDatabase {
       const [result, fields] = await this.con.promise().query(sql, [userCode])
       return result
     } catch (error) {
-      return error
+      console.error(error)
+      throw "Error em Get QrCodes from Database"
     }
   }
 
-  async getQrCodeByRef(ref, userCode) {
+  async getQrCodeByRef(ref) {
     try {
       let sql = "SELECT link FROM qrcode WHERE reference = ?"
       const [result, fields] = await this.con.promise().query(sql, [ref])
       return result[0].link
     } catch (error) {
-      return error
+      console.error(error)
+      throw "Error em QrCodes Link from Database"
     }
   }
 
@@ -38,7 +40,8 @@ class QrCodeDatabase {
         .query(sql, [id, userCode])
       return result
     } catch (error) {
-      return error
+      console.error(error)
+      throw "Error em Get This QrCode from Database"
     }
   }
 
@@ -48,12 +51,13 @@ class QrCodeDatabase {
     try {
       let sql =
         "INSERT INTO qrcode (title, description, link, reference, userCode) VALUES (?, ?, ?, ?, SHA(?))"
-      const result = await this.con
+      const [result, fields] = await this.con
         .promise()
         .query(sql, [title, description, link, reference, userCode])
-      return result[0]
+      return result
     } catch (error) {
-      return error
+      console.error(error)
+      throw "Error em Set QrCode in Database"
     }
   }
 
@@ -66,11 +70,14 @@ class QrCodeDatabase {
           " = ? WHERE idqrcode = " +
           id +
           " AND userCode = SHA(?)"
-        const result = await this.con.promise().query(sql, [value, userCode])
-        return result[0]
+        const [result, fields] = await this.con
+          .promise()
+          .query(sql, [value, userCode])
+        return result
       } else throw "Column Cannot be Changed"
     } catch (error) {
-      return error
+      console.error(error)
+      throw "Error em Update QrCode in Database"
     }
   }
 
@@ -78,10 +85,11 @@ class QrCodeDatabase {
     try {
       let sql =
         "DELETE FROM qrcode WHERE idqrcode = " + id + " AND userCode = SHA(?)"
-      const result = await this.con.promise().query(sql, [userCode])
+      const [result, fields] = await this.con.promise().query(sql, [userCode])
       return result
     } catch (error) {
-      return error
+      console.error(error)
+      throw "Error em Delete This QrCodes in Database"
     }
   }
 }

@@ -5,12 +5,12 @@ import { QrCodeDatabase } from "../database/qrCodeDB.js"
 const db = new Database()
 const qrcodeDb = new QrCodeDatabase(db.con)
 
-const getRef = async (req, res, next) => {
+const getRef = async (req, res) => {
   try {
     let reference = req.params.ref
-    let result = await qrcodeDb.getQrCodeByRef(reference)
-    if (Object.keys(result).length <= 0) throw "No Data"
-    res.redirect(result)
+    let resultLink = await qrcodeDb.getQrCodeByRef(reference)
+    if (Object.keys(result).length <= 0) throw "No ref link found"
+    res.redirect(resultLink)
   } catch (err) {
     console.error(err)
     res.status(500).send({ msg: config.constants.http.fail, err: err })
