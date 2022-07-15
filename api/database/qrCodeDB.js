@@ -92,5 +92,5 @@ class QrCodeDatabase {
   }
 }
 
-module.exports = { QrCodeDatabase }
-// export { QrCodeDatabase }
+// module.exports = { QrCodeDatabase }
+export { QrCodeDatabase }

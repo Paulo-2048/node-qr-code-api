@@ -1,10 +1,10 @@
-// import { config } from "../../config/config.js"
-// import { Database } from "../database/connectionDB.js"
-// import { QrCodeDatabase } from "../database/qrCodeDB.js"
+import { config } from "../../config/config.js"
+import { Database } from "../database/connectionDB.js"
+import { QrCodeDatabase } from "../database/qrCodeDB.js"
 
-const config = require("../../config/config.js")
-const { Database } = require("../database/connectionDB.js")
-const { QrCodeDatabase } = require("../database/qrCodeDB.js")
+// const config = require("../../config/config.js")
+// const { Database } = require("../database/connectionDB.js")
+// const { QrCodeDatabase } = require("../database/qrCodeDB.js")
 
 const db = new Database()
 const qrcodeDb = new QrCodeDatabase(db.con)
@@ -21,5 +21,5 @@ const getRef = async (req, res, next) => {
   }
 }
 
-module.exports = { getRef }
-// export { getRef }
+// module.exports = { getRef }
+export { getRef }

@@ -1,5 +1,8 @@
-const jwt = require("jsonwebtoken")
-const config = require("../config/config.js")
+// const jwt = require("jsonwebtoken")
+// const config = require("../config/config.js")
+
+import { config } from "../config/config.js"
+import jwt from "jsonwebtoken"
 
 let jwtGenerate = (req, res, next) => {
   // # No expires
@@ -78,5 +81,5 @@ let jwtVerify = (req, res, next) => {
 //   }
 // }
 
-module.exports = { jwtGenerate, jwtVerify }
-// export { jwtGenerate, jwtVerify }
+// module.exports = { jwtGenerate, jwtVerify }
+export { jwtGenerate, jwtVerify }

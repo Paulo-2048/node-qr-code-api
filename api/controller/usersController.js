@@ -1,12 +1,12 @@
-// import { config } from "../../config/config.js"
-// import { Database } from "../database/connectionDB.js"
-// import { UserDatabase } from "../database/usersDB.js"
-// import { UserModel } from "../models/usersModel.js"
+import { config } from "../../config/config.js"
+import { Database } from "../database/connectionDB.js"
+import { UserDatabase } from "../database/usersDB.js"
+import { UserModel } from "../models/usersModel.js"
 
-const config = require("../../config/config.js")
-const { Database } = require("../database/connectionDB.js")
-const { UserDatabase } = require("../database/usersDB.js")
-const { UserModel } = require("../models/usersModel.js")
+// const config = require("../../config/config.js")
+// const { Database } = require("../database/connectionDB.js")
+// const { UserDatabase } = require("../database/usersDB.js")
+// const { UserModel } = require("../models/usersModel.js")
 
 const db = new Database()
 const userDb = new UserDatabase(db.con)
@@ -28,7 +28,7 @@ const generate = async (req, res, next) => {
   }
 }
 
-module.exports = {
-  generate,
-}
-// export { loginUser, getUser, getUserById, setUser, updateUser, deleteUser }
+// module.exports = {
+//   generate,
+// }
+export { generate }

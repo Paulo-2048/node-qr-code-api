@@ -10,7 +10,6 @@ class UserDatabase {
     this._con = con
   }
 
-
   async generateCode(user) {
     let { plan, code } = user
     try {
@@ -23,7 +22,6 @@ class UserDatabase {
     }
   }
 
-
   async incrementCount(token) {
     try {
       let sqlReturn =
@@ -33,10 +31,7 @@ class UserDatabase {
         'UPDATE users SET qrcodes_created = ? WHERE code = SHA("' + token + '")'
       const result = await this.con
         .promise()
-        .query(sql, [
-          resultQt[0][0].qrcodes_created + 1,
-          `SHA("${token}")`,
-        ])
+        .query(sql, [resultQt[0][0].qrcodes_created + 1, `SHA("${token}")`])
       return result[0]
     } catch (error) {
       return error
@@ -52,10 +47,7 @@ class UserDatabase {
         'UPDATE users SET qrcodes_created = ? WHERE code = SHA("' + token + '")'
       const result = await this.con
         .promise()
-        .query(sql, [
-          resultQt[0][0].qrcodes_created - 1,
-          `SHA("${token}")`,
-        ])
+        .query(sql, [resultQt[0][0].qrcodes_created - 1, `SHA("${token}")`])
       return result[0]
     } catch (error) {
       return error
@@ -63,5 +55,5 @@ class UserDatabase {
   }
 }
 
-module.exports = { UserDatabase }
-//export { UserDatabase }
+// module.exports = { UserDatabase }
+export { UserDatabase }
