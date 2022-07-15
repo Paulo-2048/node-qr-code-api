@@ -8,7 +8,7 @@ const config = {
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
   port: process.env.PORT,
 
-  baseLink: process.env.LINK + ":" + process.env.PORT,
+  baseLink: process.env.VERCEL_URL,
 
   database: {
     dbHost: process.env.HOSTDB,

@@ -12,18 +12,21 @@ class QrCodeDatabase {
 
   async getQrCode(userCode) {
     try {
-      let sql = "SELECT * FROM qrcode WHERE userCode = SHA(" + userCode + ")"
-      const [result, fields] = await this.con.promise().query(sql)
+      let sql = 'SELECT * FROM qrcode WHERE userCode = SHA(?)'
+      const [result, fields] = await this.con.promise().query(sql, [userCode])
       return result
     } catch (error) {
       return error
     }
   }
 
-  async getQrCodeByRef(ref) {
+  async getQrCodeByRef(ref, userCode) {
     try {
-      let sql = "SELECT link FROM qrcode WHERE reference = ?"
-      const [result, fields] = await this.con.promise().query(sql, [ref])
+      let sql =
+        'SELECT link FROM qrcode WHERE reference = ?'
+      const [result, fields] = await this.con
+        .promise()
+        .query(sql, [ref])
       return result[0].link
     } catch (error) {
       return error
@@ -33,12 +36,10 @@ class QrCodeDatabase {
   async getQrCodeById(id, userCode) {
     try {
       let sql =
-        "SELECT * FROM qrcode WHERE idqrcode = " +
-        id +
-        " AND userCode = SHA(" +
-        userCode +
-        ")"
-      const [result, fields] = await this.con.promise().query(sql)
+        'SELECT * FROM qrcode WHERE idqrcode = ? AND userCode = SHA(?)'
+      const [result, fields] = await this.con
+        .promise()
+        .query(sql, [id, userCode])
       return result
     } catch (error) {
       return error
@@ -68,10 +69,8 @@ class QrCodeDatabase {
           column +
           " = ? WHERE idqrcode = " +
           id +
-          " AND userCode = SHA(" +
-          userCode +
-          ")"
-        const result = await this.con.promise().query(sql, [value])
+          " AND userCode = SHA(?)"
+        const result = await this.con.promise().query(sql, [value, userCode])
         return result[0]
       } else throw "Column Cannot be Changed"
     } catch (error) {
@@ -84,10 +83,8 @@ class QrCodeDatabase {
       let sql =
         "DELETE FROM qrcode WHERE idqrcode = " +
         id +
-        " AND userCode = SHA(" +
-        userCode +
-        ")"
-      const result = await this.con.promise().query(sql)
+        " AND userCode = SHA(?)"
+      const result = await this.con.promise().query(sql, [userCode])
       return result
     } catch (error) {
       return error

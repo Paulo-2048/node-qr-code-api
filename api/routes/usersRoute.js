@@ -8,12 +8,7 @@ const userController = require("../controller/usersController.js")
 
 const router = express.Router()
 
-router.get("/", userController.getUser)
-router.get("/:id", userController.getUserById)
-router.post("/", jwt.jwtVerify, userController.setUser)
-router.post("/login", userController.loginUser, jwt.jwtGenerate)
-router.post("/update", jwt.jwtVerify, userController.updateUser)
-router.post("/delete", jwt.jwtVerify, userController.deleteUser)
+router.get("/generate", jwt.jwtGenerate, userController.generate)
 
 module.exports = router
 // export { router }

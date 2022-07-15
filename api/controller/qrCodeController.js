@@ -18,7 +18,7 @@ const userDb = new UserDatabase(db.con)
 
 const getQrCode = async (req, res, next) => {
   try {
-    let userCode = await userDb.getUserCode(res.locals.id)
+    let userCode = req.headers.code
     let result = await qrcodeDb.getQrCode(userCode)
     if (Object.keys(result).length <= 0) throw "No Data"
     for (const i of result) {
@@ -38,7 +38,7 @@ const getQrCode = async (req, res, next) => {
 const getQrCodeById = async (req, res, next) => {
   try {
     let idQrCode = req.params.id
-    let userCode = await userDb.getUserCode(res.locals.id)
+    let userCode = req.headers.code
     let result = await qrcodeDb.getQrCodeById(idQrCode, userCode)
     if (Object.keys(result).length <= 0) throw "No Data"
     for (const i of result) {
@@ -57,17 +57,17 @@ const getQrCodeById = async (req, res, next) => {
 
 const setQrCode = async (req, res, next) => {
   try {
-    let userCode = await userDb.getUserCode(res.locals.id)
+    let userCode = req.headers.code
     let qrCodeModel = new QrCodeModel(
       req.body.title,
       req.body.description,
       req.body.link,
-      undefined,
       userCode
     )
     let result = await qrcodeDb.setQrCode(qrCodeModel)
     if (result.affectedRows <= 0 || result.affectedRows == undefined)
       throw "Error em Create"
+    await userDb.incrementCount(userCode)
     res.status(200).send({
       msg: config.constants.http.sucess,
       id: result.insertId,
@@ -80,8 +80,8 @@ const setQrCode = async (req, res, next) => {
 
 const updateQrCode = async (req, res, next) => {
   try {
-    let userCode = await userDb.getUserCode(res.locals.id)
-    let id = req.body.id
+    let userCode = req.headers.code
+    let id = req.params.id
     let column = req.body.column
     let value = req.body.value
     let result = await qrcodeDb.updateQrCode(id, column, value, userCode)
@@ -98,11 +98,12 @@ const updateQrCode = async (req, res, next) => {
 
 const deleteQrCode = async (req, res, next) => {
   try {
-    let userCode = await userDb.getUserCode(res.locals.id)
-    let id = req.body.id
+    let userCode = req.headers.code
+    let id = req.params.id
     let result = await qrcodeDb.deleteQrCode(id, userCode)
     if (result.affectedRows <= 0 || result[0].affectedRows <= 0)
       throw "Error em delete"
+    await userDb.desincrementCount(userCode)
     res.status(200).send({
       msg: config.constants.http.sucess,
     })
