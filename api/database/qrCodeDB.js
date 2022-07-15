@@ -23,10 +23,10 @@ class QrCodeDatabase {
   async getQrCodeByRef(ref, userCode) {
     try {
       let sql =
-        'SELECT link FROM qrcode WHERE reference = ? AND userCode = SHA(?)'
+        'SELECT link FROM qrcode WHERE reference = ?'
       const [result, fields] = await this.con
         .promise()
-        .query(sql, [ref, userCode])
+        .query(sql, [ref])
       return result[0].link
     } catch (error) {
       return error
