@@ -12,7 +12,7 @@ class QrCodeDatabase {
 
   async getQrCode(userCode) {
     try {
-      let sql = 'SELECT * FROM qrcode WHERE userCode = SHA(?)'
+      let sql = "SELECT * FROM qrcode WHERE userCode = SHA(?)"
       const [result, fields] = await this.con.promise().query(sql, [userCode])
       return result
     } catch (error) {
@@ -22,11 +22,8 @@ class QrCodeDatabase {
 
   async getQrCodeByRef(ref, userCode) {
     try {
-      let sql =
-        'SELECT link FROM qrcode WHERE reference = ?'
-      const [result, fields] = await this.con
-        .promise()
-        .query(sql, [ref])
+      let sql = "SELECT link FROM qrcode WHERE reference = ?"
+      const [result, fields] = await this.con.promise().query(sql, [ref])
       return result[0].link
     } catch (error) {
       return error
@@ -35,8 +32,7 @@ class QrCodeDatabase {
 
   async getQrCodeById(id, userCode) {
     try {
-      let sql =
-        'SELECT * FROM qrcode WHERE idqrcode = ? AND userCode = SHA(?)'
+      let sql = "SELECT * FROM qrcode WHERE idqrcode = ? AND userCode = SHA(?)"
       const [result, fields] = await this.con
         .promise()
         .query(sql, [id, userCode])
@@ -81,9 +77,7 @@ class QrCodeDatabase {
   async deleteQrCode(id, userCode) {
     try {
       let sql =
-        "DELETE FROM qrcode WHERE idqrcode = " +
-        id +
-        " AND userCode = SHA(?)"
+        "DELETE FROM qrcode WHERE idqrcode = " + id + " AND userCode = SHA(?)"
       const result = await this.con.promise().query(sql, [userCode])
       return result
     } catch (error) {
@@ -92,5 +86,4 @@ class QrCodeDatabase {
   }
 }
 
-// module.exports = { QrCodeDatabase }
 export { QrCodeDatabase }

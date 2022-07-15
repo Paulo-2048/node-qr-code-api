@@ -58,5 +58,4 @@ class QrCodeModel {
   }
 }
 
-// module.exports = {QrCodeModel}
 export { QrCodeModel }

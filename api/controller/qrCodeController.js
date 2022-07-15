@@ -5,13 +5,6 @@ import { QrCodeModel } from "../models/qrCodeModel.js"
 import { qrcodeGenerate } from "../../utils/qrCodeGenerate.js"
 import { UserDatabase } from "../database/usersDB.js"
 
-// const config = require("../../config/config.js")
-// const { Database } = require("../database/connectionDB.js")
-// const { QrCodeDatabase } = require("../database/qrCodeDB.js")
-// const { QrCodeModel } = require("../models/qrCodeModel.js")
-// const { qrcodeGenerate } = require("../../utils/qrCodeGenerate.js")
-// const { UserDatabase } = require("../database/usersDB.js")
-
 const db = new Database()
 const qrcodeDb = new QrCodeDatabase(db.con)
 const userDb = new UserDatabase(db.con)
@@ -112,11 +105,4 @@ const deleteQrCode = async (req, res, next) => {
   }
 }
 
-// module.exports = {
-//   getQrCode,
-//   getQrCodeById,
-//   setQrCode,
-//   updateQrCode,
-//   deleteQrCode,
-// }
 export { getQrCode, getQrCodeById, setQrCode, updateQrCode, deleteQrCode }

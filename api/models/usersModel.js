@@ -20,5 +20,4 @@ class UserModel {
   }
 }
 
-// module.exports = { UserModel }
 export { UserModel }

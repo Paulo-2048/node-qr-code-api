@@ -55,5 +55,5 @@ class UserDatabase {
   }
 }
 
-// module.exports = { UserDatabase }
+
 export { UserDatabase }

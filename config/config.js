@@ -1,8 +1,6 @@
 import dotenv from "dotenv"
 dotenv.config({ path: ".env" })
 
-// const dotenv = require("dotenv").config({ path: ".env" })
-
 const config = {
   jwtSecret: process.env.JWT_SECRET,
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
@@ -30,5 +28,4 @@ const config = {
   },
 }
 
-// module.exports = config
 export { config }
