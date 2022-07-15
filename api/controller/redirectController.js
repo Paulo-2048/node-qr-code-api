@@ -9,7 +9,7 @@ const getRef = async (req, res) => {
   try {
     let reference = req.params.ref
     let resultLink = await qrcodeDb.getQrCodeByRef(reference)
-    if (Object.keys(result).length <= 0) throw "No ref link found"
+    if (Object.keys(resultLink).length <= 0) throw "No ref link found"
     res.redirect(resultLink)
   } catch (err) {
     console.error(err)
