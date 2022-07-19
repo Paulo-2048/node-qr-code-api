@@ -1,10 +1,11 @@
 class QrCodeModel {
-  constructor(title, description, link, userCode) {
+  constructor(title, description, link, typeQR, userCode) {
     ;(this.title = title),
       (this.description = description),
       (this.link = link),
       (this.reference = undefined),
       (this.userCode = userCode)
+    this.typeQR = typeQR
   }
 
   get title() {
@@ -28,6 +29,14 @@ class QrCodeModel {
   set link(link) {
     if (link == undefined) throw "Link not defined"
     this._link = link
+  }
+
+  get typeQR() {
+    return this._typeQR
+  }
+  set typeQR(typeQR) {
+    if (typeQR == undefined) throw "Type not defined"
+    this._typeQR = typeQR
   }
 
   get reference() {

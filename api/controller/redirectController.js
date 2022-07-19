@@ -9,11 +9,11 @@ const getRef = async (req, res) => {
   try {
     let reference = req.params.ref
     let resultLink = await qrcodeDb.getQrCodeByRef(reference)
-    if (Object.keys(resultLink).length <= 0) throw "No ref link found"
+    if (Object.keys(resultLink).length <= 0) throw "No Redirect Found"
     res.redirect(resultLink)
   } catch (err) {
     console.error(err)
-    res.status(500).send({ msg: config.constants.http.fail, err: err })
+    res.status(404).send({ msg: config.constants.http.fail, err: err })
   }
 }
 

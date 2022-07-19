@@ -10,14 +10,14 @@ const generate = async (req, res) => {
     let plan = req.headers.plan
     let token = res.locals.token
     let result = await userDb.storeCode(token, plan)
-    if (result.length <= 0) throw "Error in generate token"
-    res.status(200).send({
+    if (result.length <= 0) throw "Error in Generate Token"
+    res.status(201).send({
       msg: config.constants.http.sucess,
       data: token,
     })
   } catch (err) {
     console.error(err)
-    res.status(500).send({ msg: config.constants.http.fail, err: err })
+    res.status(400).send({ msg: config.constants.http.fail, err: err })
   }
 }
 
