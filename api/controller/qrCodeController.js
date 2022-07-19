@@ -2,7 +2,10 @@ import { config } from "../../config/config.js"
 import { Database } from "../database/connectionDB.js"
 import { QrCodeDatabase } from "../database/qrCodeDB.js"
 import { QrCodeModel } from "../models/qrCodeModel.js"
-import { qrcodeGenerate } from "../../utils/qrCodeGenerate.js"
+import {
+  staticQrCodeGenerate,
+  dynamicQrCodeGenerate,
+} from "../../utils/qrCodeGenerate.js"
 import { UserDatabase } from "../database/usersDB.js"
 
 const db = new Database()
@@ -17,7 +20,9 @@ const getQrCode = async (req, res) => {
       throw "No QR Code was Found For This Api-Key"
     for (const i of result) {
       i.userCode = undefined
-      i.qrcode = await qrcodeGenerate(i.reference)
+      if (i.type == "static") i.qrcode = await staticQrCodeGenerate(i.link)
+      if (i.type == "dynamic")
+        i.qrcode = await dynamicQrCodeGenerate(i.reference)
     }
     res.status(200).send({
       msg: config.constants.http.sucess,
@@ -38,7 +43,9 @@ const getQrCodeById = async (req, res) => {
       throw "No QR Code was Found For This Id and Api-Key"
     for (const i of result) {
       i.userCode = undefined
-      i.qrcode = await qrcodeGenerate(i.reference)
+      if (i.type == "static") i.qrcode = await staticQrCodeGenerate(i.link)
+      if (i.type == "dynamic")
+        i.qrcode = await dynamicQrCodeGenerate(i.reference)
     }
     res.status(200).send({
       msg: config.constants.http.sucess,
