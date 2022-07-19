@@ -5,6 +5,8 @@ const config = {
   jwtSecret: process.env.JWT_SECRET,
   port: process.env.PORT,
 
+  status: process.env.API_STATUS || "on hold",
+  version: process.env.API_VERSION || "in update",
   baseLink: process.env.LINK,
 
   database: {
