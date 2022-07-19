@@ -50,7 +50,7 @@ class QrCodeDatabase {
 
     try {
       let sql =
-        "INSERT INTO qrcode (title, description, link, type, reference, userCode) VALUES (?, ?, ?, ?, SHA(?))"
+        "INSERT INTO qrcode (title, description, link, type, reference, userCode) VALUES (?, ?, ?, ?, ?, SHA(?))"
       const [result, fields] = await this.con
         .promise()
         .query(sql, [title, description, link, typeQR, reference, userCode])
@@ -74,10 +74,10 @@ class QrCodeDatabase {
     }
   }
 
-  async verifyType(id, code) {
+  async verifyType(id, userCode) {
     try {
       let sql = "SELECT type FROM qrcode WHERE idqrcode = ? AND userCode = SHA(?)"
-      const [result, fields] = await this.con.promise().query(sql, [id, code])
+      const [result, fields] = await this.con.promise().query(sql, [id, userCode])
       return result[0].type
     } catch (error) {
       console.error(error)
