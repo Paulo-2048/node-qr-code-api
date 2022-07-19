@@ -5,7 +5,7 @@ const config = {
   jwtSecret: process.env.JWT_SECRET,
   port: process.env.PORT,
 
-  baseLink: process.env.VERCEL_URL,
+  baseLink: process.env.LINK,
 
   database: {
     dbHost: process.env.HOSTDB,
