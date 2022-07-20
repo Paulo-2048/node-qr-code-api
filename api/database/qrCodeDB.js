@@ -76,12 +76,11 @@ class QrCodeDatabase {
 
   async verifyType(id, userCode) {
     try {
-      let sql = "SELECT type FROM qrcode WHERE idqrcode = ? AND userCode = SHA(?)"
-      const [result, fields] = await this.con.promise().query(sql, [id, userCode])
+      let sql = `SELECT type FROM qrcode WHERE idqrcode = ${id} AND userCode = SHA(?)`
+      const [result, fields] = await this.con.promise().query(sql, [userCode])
       return result[0].type
     } catch (error) {
-      console.error(error)
-      throw "Error in Get Type of This QR Code"
+      throw "Error in Delete from Database"
     }
   }
 

@@ -180,13 +180,15 @@ const deleteQrCode = async (req, res) => {
   try {
     let userCode = req.headers.code
     let id = req.params.id
+
+    let typeQR = await qrcodeDb.verifyType(id, userCode)
+    if (typeQR == "dynamic") await userDb.desincrementCount(userCode)
+
     let result = await qrcodeDb.deleteQrCode(id, userCode)
 
     if (result.affectedRows <= 0 || result.affectedRows == undefined)
       throw "Error in Delete"
 
-    let typeQR = await qrcodeDb.verifyType(id, userCode)
-    if (typeQR == "dynamic") await userDb.desincrementCount(userCode)
     res.status(200).send({
       msg: config.constants.http.sucess,
     })
