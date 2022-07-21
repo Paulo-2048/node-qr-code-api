@@ -80,7 +80,7 @@ class QrCodeDatabase {
       const [result, fields] = await this.con.promise().query(sql, [userCode])
       return result[0].type
     } catch (error) {
-      throw "Error in Delete from DB"
+      throw "Error in Delete from Database"
     }
   }
 
