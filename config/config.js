@@ -34,8 +34,9 @@ const config = {
       jwtFail: "Api-Key Verify Fail",
     },
     rapidApi: {
-      proxyVerifyFail: "This host is not allowed, just make requests through the URL provided by Rapi Api"
-    }
+      proxyVerifyFail:
+        "This host is not allowed, just make requests through the URL provided by Rapi Api",
+    },
   },
 }
 

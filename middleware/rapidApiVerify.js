@@ -5,7 +5,6 @@ let hostVerify = (req, res, next) => {
   try {
     // if (!AccessControl.ipMatch(req.ip, config.ipConfig.allows))
     //   throw "IP Not Allowed"
-    console.log(req.headers["x-rapidapi-proxy-secret"])
     if (!(req.headers["x-rapidapi-proxy-secret"] == config.rapidApiProxyKey))
       throw "Proxy Key Veify Fail"
     next()

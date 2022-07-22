@@ -17,7 +17,7 @@ cors({ origin: "*" })
 
 app.use("/user", hostVerify, userRoute.router)
 app.use("/qrcode", hostVerify, qrCodeRoute.router)
-app.use("/", hostVerify, redirectRoute.router)
+app.use("/", redirectRoute.router)
 
 const PORT = config.port || 3333
 app.listen(PORT, () => {
