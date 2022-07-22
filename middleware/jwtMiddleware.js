@@ -13,7 +13,7 @@ let jwtGenerate = (req, res, next) => {
     next()
   } catch (err) {
     console.error(err)
-    res.status(400).send({
+    res.status(401).send({
       msg: config.constants.http.fail,
       err: config.constants.http.jwtFail,
     })
@@ -27,7 +27,7 @@ let jwtVerify = (req, res, next) => {
     res.locals.plan = result.plan
     next()
   } catch (err) {
-    res.status(400).send({
+    res.status(401).send({
       msg: config.constants.http.fail,
       err: config.constants.http.jwtFail,
     })

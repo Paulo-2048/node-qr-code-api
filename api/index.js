@@ -1,5 +1,6 @@
 import express, { json } from "express"
 import { config } from "../config/config.js"
+import { hostVerify } from "../middleware/rapidApiVerify.js"
 import morgan from "morgan"
 import cors from "cors"
 
@@ -10,12 +11,13 @@ import * as redirectRoute from "./routes/redirectRoute.js"
 const app = express()
 
 app.use(morgan("tiny"))
-app.use(cors({ origin: "*" }))
 app.use(json({ extended: false }))
+cors({ origin: "*" })
+//rapidapi.com.*$
 
-app.use("/user", userRoute.router)
-app.use("/qrcode", qrCodeRoute.router)
-app.use("/", redirectRoute.router)
+app.use("/user", hostVerify, userRoute.router)
+app.use("/qrcode", hostVerify, qrCodeRoute.router)
+app.use("/", hostVerify, redirectRoute.router)
 
 const PORT = config.port || 3333
 app.listen(PORT, () => {
