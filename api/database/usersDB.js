@@ -15,9 +15,31 @@ class UserDatabase {
       let sql = "INSERT INTO users (plan, code) VALUES (?, SHA(?))"
       await this.con.promise().query(sql, [plan, code])
       return code
-    } catch (error) {
-      console.error(error)
-      return error
+    } catch (err) {
+      console.error(err)
+      throw "Error Store ApiKey"
+    }
+  }
+
+  async verifyCode(code) {
+    try {
+      let sql = "SELECT * FROM users WHERE code = SHA(?)"
+      const [result, fields] = await this.con.promise().query(sql, [code])
+      if (Object.keys(result).length <= 0) throw "User Code Don't Exists"
+    } catch (err) {
+      console.error(err)
+      throw "Api-Key Not Found"
+    }
+  }
+
+  async deleteCode(code) {
+    try {
+      let sql = "DELETE FROM users WHERE code = SHA(?)"
+      const [result, fields] = await this.con.promise().query(sql, [code])
+      return result
+    } catch (err) {
+      console.error(err)
+      throw "Error Delete ApiKey"
     }
   }
 
@@ -29,9 +51,9 @@ class UserDatabase {
       await this.con
         .promise()
         .query(sql, [resultQt[0][0].qrcodes_created + 1, token])
-    } catch (error) {
-      console.error(error)
-      return error
+    } catch (err) {
+      console.error(err)
+      throw "Error in Increment"
     }
   }
 
@@ -43,8 +65,9 @@ class UserDatabase {
       await this.con
         .promise()
         .query(sql, [resultQt[0][0].qrcodes_created - 1, token])
-    } catch (error) {
-      return error
+    } catch (err) {
+      console.error(err)
+      throw "Error Delete Increment"
     }
   }
 }

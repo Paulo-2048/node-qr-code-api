@@ -15,6 +15,8 @@ const userDb = new UserDatabase(db.con)
 const getQrCode = async (req, res) => {
   try {
     let userCode = req.headers.code
+    await userDb.verifyCode(userCode)
+
     let result = await qrcodeDb.getQrCode(userCode)
     if (Object.keys(result).length <= 0)
       throw "No QR Code was Found For This Api-Key"
@@ -24,6 +26,7 @@ const getQrCode = async (req, res) => {
       if (i.type == "dynamic")
         i.qrcode = await dynamicQrCodeGenerate(i.reference)
     }
+
     res.status(200).send({
       msg: config.constants.http.sucess,
       data: result,
@@ -38,6 +41,8 @@ const getQrCodeById = async (req, res) => {
   try {
     let idQrCode = req.params.id
     let userCode = req.headers.code
+
+    await userDb.verifyCode(userCode)
     let result = await qrcodeDb.getQrCodeById(idQrCode, userCode)
     if (Object.keys(result).length <= 0)
       throw "No QR Code was Found For This Id and Api-Key"
@@ -47,6 +52,7 @@ const getQrCodeById = async (req, res) => {
       if (i.type == "dynamic")
         i.qrcode = await dynamicQrCodeGenerate(i.reference)
     }
+
     res.status(200).send({
       msg: config.constants.http.sucess,
       data: result,
@@ -60,6 +66,8 @@ const getQrCodeById = async (req, res) => {
 const setDynamicQrCode = async (req, res) => {
   try {
     let userCode = req.headers.code
+    await userDb.verifyCode(userCode)
+
     let qrCodeModel = new QrCodeModel(
       req.body.title,
       req.body.description,
@@ -67,9 +75,12 @@ const setDynamicQrCode = async (req, res) => {
       "dynamic",
       userCode
     )
+
     let result = await qrcodeDb.setQrCode(qrCodeModel)
     if (result.affectedRows <= 0) throw "Error in Set New QR Code"
+
     await userDb.incrementCount(userCode)
+
     res.status(201).send({
       msg: config.constants.http.sucess,
       id: result.insertId,
@@ -83,6 +94,8 @@ const setDynamicQrCode = async (req, res) => {
 const setStaticQrCode = async (req, res) => {
   try {
     let userCode = req.headers.code
+    await userDb.verifyCode(userCode)
+
     let qrCodeModel = new QrCodeModel(
       req.body.title,
       req.body.description,
@@ -90,9 +103,10 @@ const setStaticQrCode = async (req, res) => {
       "static",
       userCode
     )
-    let result = await qrcodeDb.setQrCode(qrCodeModel)
 
+    let result = await qrcodeDb.setQrCode(qrCodeModel)
     if (result.affectedRows <= 0) throw "Error in Set New QR Code"
+
     res.status(201).send({
       msg: config.constants.http.sucess,
       id: result.insertId,
@@ -106,7 +120,12 @@ const setStaticQrCode = async (req, res) => {
 const updateDynamicQrCode = async (req, res) => {
   try {
     const userCode = req.headers.code
+    await userDb.verifyCode(userCode)
     const id = req.params.id
+
+    let verify = await qrcodeDb.getQrCodeById(id, userCode)
+    if (Object.keys(verify).length <= 0)
+      throw "No QR Code was Found For This Id and Api-Key"
 
     let values = [
       { column: "title", value: req.body.title },
@@ -128,8 +147,9 @@ const updateDynamicQrCode = async (req, res) => {
 
     let typeQR = await qrcodeDb.verifyType(id, userCode)
     if (typeQR != "dynamic") throw "This ID Points to a Static QR Code"
+    if (result.affectedRows <= 0 || result.affectedRows == undefined)
+      throw "Error in Update"
 
-    if (result == undefined || result.affectedRows <= 0) throw "Error in Update"
     res.status(200).send({
       msg: config.constants.http.sucess,
       updated: changed.join(", "),
@@ -143,6 +163,7 @@ const updateDynamicQrCode = async (req, res) => {
 const updateStaticQrCode = async (req, res) => {
   try {
     const userCode = req.headers.code
+    await userDb.verifyCode(userCode)
     const id = req.params.id
 
     let values = [
@@ -164,7 +185,8 @@ const updateStaticQrCode = async (req, res) => {
 
     let typeQR = await qrcodeDb.verifyType(id, userCode)
     if (typeQR != "static") throw "This ID Points to a Dynamic QR Code"
-    if (result == undefined || result.affectedRows <= 0) throw "Error in Update"
+    if (result.affectedRows <= 0 || result.affectedRows == undefined)
+      throw "Error in Update"
 
     res.status(200).send({
       msg: config.constants.http.sucess,
@@ -179,6 +201,7 @@ const updateStaticQrCode = async (req, res) => {
 const deleteQrCode = async (req, res) => {
   try {
     let userCode = req.headers.code
+    await userDb.verifyCode(userCode)
     let id = req.params.id
 
     let typeQR = await qrcodeDb.verifyType(id, userCode)
@@ -193,6 +216,7 @@ const deleteQrCode = async (req, res) => {
       msg: config.constants.http.sucess,
     })
   } catch (err) {
+    console.error(err)
     res.status(400).send({ msg: config.constants.http.fail, err: err })
   }
 }

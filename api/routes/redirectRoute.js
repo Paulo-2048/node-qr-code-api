@@ -8,7 +8,7 @@ router.get("/:ref", redirectController.getRef)
 router.get("/", (req, res) => {
   res.status(200).send({
     status: config.status,
-    version: config.version
+    version: config.version,
   })
 })
 
