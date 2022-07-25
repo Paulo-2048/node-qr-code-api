@@ -11,8 +11,10 @@ const generate = async (req, res) => {
   try {
     let plan = req.headers.plan
     let token = res.locals.token
+
     let result = await userDb.storeCode(token, plan)
     if (result.affectedRows <= 0) throw "Error in Generate Token"
+
     res.status(201).send({
       msg: config.constants.http.sucess,
       data: token,
@@ -27,6 +29,7 @@ const deleteKey = async (req, res) => {
   try {
     let token = req.headers.code
     let result = await userDb.deleteCode(token)
+
     if (result.affectedRows <= 0) throw "Api-Key Not Found"
     let qrcodes = 0
 
@@ -37,6 +40,7 @@ const deleteKey = async (req, res) => {
         qrcodes++
       }
     }
+
     res.status(201).send({
       msg: config.constants.http.sucess,
       qrcodes_deleted: qrcodes,
