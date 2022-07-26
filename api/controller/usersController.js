@@ -43,7 +43,6 @@ const deleteKey = async (req, res) => {
 
     res.status(201).send({
       msg: config.constants.http.sucess,
-      qrcodes_deleted: qrcodes,
     })
   } catch (err) {
     console.error(err)
