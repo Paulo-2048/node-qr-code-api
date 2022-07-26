@@ -6,5 +6,6 @@ const router = express.Router()
 
 router.get("/generate", jwt.jwtGenerate, userController.generate)
 router.delete("/delete", jwt.jwtVerify, userController.deleteKey)
+router.delete("/deletetest", jwt.jwtVerify, userController.deleteKeyTest)
 
 export { router }
