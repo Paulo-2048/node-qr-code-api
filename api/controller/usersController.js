@@ -50,4 +50,30 @@ const deleteKey = async (req, res) => {
   }
 }
 
-export { generate, deleteKey }
+const deleteKeyTest = async (req, res) => {
+  try {
+    let token = req.headers.code
+    // let result = await userDb.deleteCode(token)
+
+    // if (result.affectedRows <= 0) throw "Api-Key Not Found"
+    // let qrcodes = 0
+
+    // let resultQR = await qrcodeDb.getQrCode(token)
+    // if (Object.keys(resultQR).length > 0) {
+    //   for (const i of resultQR) {
+    //     await qrcodeDb.deleteQrCode(i.idqrcode, token)
+    //     qrcodes++
+    //   }
+    // }
+
+    res.status(201).send({
+      msg: config.constants.http.sucess,
+      token: token,
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(400).send({ msg: config.constants.http.fail, err: err })
+  }
+}
+
+export { generate, deleteKey, deleteKeyTest }
