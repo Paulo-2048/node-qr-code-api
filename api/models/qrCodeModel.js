@@ -1,10 +1,10 @@
 class QrCodeModel {
-  constructor(title, description, link, typeQR, userCode) {
+  constructor(title, description, link, typeQR, userToken) {
     ;(this.title = title),
       (this.description = description),
       (this.link = link),
       (this.reference = undefined),
-      (this.userCode = userCode)
+      (this.userToken = userToken)
     this.typeQR = typeQR
   }
 
@@ -51,12 +51,12 @@ class QrCodeModel {
     }
   }
 
-  get userCode() {
-    return this._userCode
+  get userToken() {
+    return this._userToken
   }
-  set userCode(userCode) {
-    if (userCode == undefined) throw "User Code not defined"
-    this._userCode = userCode
+  set userToken(userToken) {
+    if (userToken == undefined) throw "User Token not defined"
+    this._userToken = userToken
   }
 
   get qrCode() {
