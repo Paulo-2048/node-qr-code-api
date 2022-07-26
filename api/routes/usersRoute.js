@@ -5,7 +5,6 @@ import * as userController from "../controller/usersController.js"
 const router = express.Router()
 
 router.get("/generate", jwt.jwtGenerate, userController.generate)
-router.delete("/delete", jwt.jwtVerify, userController.deleteKey)
-router.delete("/deletetest", jwt.jwtVerify, userController.deleteKeyTest)
+router.delete("/generate", jwt.jwtVerify, userController.deleteKey)
 
 export { router }
