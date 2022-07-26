@@ -10,10 +10,10 @@ class QrCodeDatabase {
     this._con = con
   }
 
-  async getQrCode(userCode) {
+  async getQrCode(userToken) {
     try {
-      let sql = "SELECT * FROM qrcode WHERE userCode = SHA(?)"
-      const [result, fields] = await this.con.promise().query(sql, [userCode])
+      let sql = "SELECT * FROM qrcode WHERE userToken = SHA(?)"
+      const [result, fields] = await this.con.promise().query(sql, [userToken])
       return result
     } catch (err) {
       console.error(err)
@@ -32,12 +32,12 @@ class QrCodeDatabase {
     }
   }
 
-  async getQrCodeById(id, userCode) {
+  async getQrCodeById(id, userToken) {
     try {
-      let sql = "SELECT * FROM qrcode WHERE idqrcode = ? AND userCode = SHA(?)"
+      let sql = "SELECT * FROM qrcode WHERE idqrcode = ? AND userToken = SHA(?)"
       const [result, fields] = await this.con
         .promise()
-        .query(sql, [id, userCode])
+        .query(sql, [id, userToken])
       return result
     } catch (err) {
       console.error(err)
@@ -46,14 +46,14 @@ class QrCodeDatabase {
   }
 
   async setQrCode(QrCode) {
-    let { title, description, link, reference, typeQR, userCode } = QrCode
+    let { title, description, link, reference, typeQR, userToken } = QrCode
 
     try {
       let sql =
-        "INSERT INTO qrcode (title, description, link, type, reference, userCode) VALUES (?, ?, ?, ?, ?, SHA(?))"
+        "INSERT INTO qrcode (title, description, link, type, reference, userToken) VALUES (?, ?, ?, ?, ?, SHA(?))"
       const [result, fields] = await this.con
         .promise()
-        .query(sql, [title, description, link, typeQR, reference, userCode])
+        .query(sql, [title, description, link, typeQR, reference, userToken])
       return result
     } catch (err) {
       console.error(err)
@@ -61,12 +61,12 @@ class QrCodeDatabase {
     }
   }
 
-  async updateQrCode(id, column, value, userCode) {
+  async updateQrCode(id, column, value, userToken) {
     try {
-      let sql = `UPDATE qrcode SET ${column} = ? WHERE idqrcode = ${id} AND userCode = SHA(?)`
+      let sql = `UPDATE qrcode SET ${column} = ? WHERE idqrcode = ${id} AND userToken = SHA(?)`
       const [result, fields] = await this.con
         .promise()
-        .query(sql, [value, userCode])
+        .query(sql, [value, userToken])
       return result
     } catch (err) {
       console.error(err)
@@ -74,20 +74,20 @@ class QrCodeDatabase {
     }
   }
 
-  async verifyType(id, userCode) {
+  async verifyType(id, userToken) {
     try {
-      let sql = `SELECT type FROM qrcode WHERE idqrcode = ${id} AND userCode = SHA(?)`
-      const [result, fields] = await this.con.promise().query(sql, [userCode])
+      let sql = `SELECT type FROM qrcode WHERE idqrcode = ${id} AND userToken = SHA(?)`
+      const [result, fields] = await this.con.promise().query(sql, [userToken])
       return result[0].type
     } catch (err) {
       throw "Error in Verify This QR Code from Database"
     }
   }
 
-  async deleteQrCode(id, userCode) {
+  async deleteQrCode(id, userToken) {
     try {
-      let sql = `DELETE FROM qrcode WHERE idqrcode = ${id} AND userCode = SHA(?)`
-      const [result, fields] = await this.con.promise().query(sql, [userCode])
+      let sql = `DELETE FROM qrcode WHERE idqrcode = ${id} AND userToken = SHA(?)`
+      const [result, fields] = await this.con.promise().query(sql, [userToken])
       return result
     } catch (err) {
       console.error(err)
